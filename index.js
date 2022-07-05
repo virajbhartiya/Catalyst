@@ -1,19 +1,19 @@
 const Velocity = require('./velocity/velocity');
 const gpio = require('rpi-gpio').promise;
 
-const lightOne = 32
-const lightTwo = 36
-const lightThree = 38
+const tubeLight = 32
+const bedLights = 36
+const fan = 38
 const lightFour = 40
 
-gpio.setup(lightOne, gpio.DIR_OUT).then(function () {
-  return gpio.write(lightOne, true);
+gpio.setup(tubeLight, gpio.DIR_OUT).then(function () {
+  return gpio.write(tubeLight, true);
 })
-gpio.setup(lightTwo, gpio.DIR_OUT).then(function () {
-  return gpio.write(lightTwo, true);
+gpio.setup(bedLights, gpio.DIR_OUT).then(function () {
+  return gpio.write(bedLights, true);
 })
-gpio.setup(lightThree, gpio.DIR_OUT).then(function () {
-  return gpio.write(lightThree, true);
+gpio.setup(fan, gpio.DIR_OUT).then(function () {
+  return gpio.write(fan, true);
 })
 gpio.setup(lightFour, gpio.DIR_OUT).then(function () {
   return gpio.write(lightFour, true);
@@ -22,27 +22,27 @@ gpio.setup(lightFour, gpio.DIR_OUT).then(function () {
 let velocity = new Velocity(
   {
     devices: [{
-      name: 'Light 1',
+      name: 'Tube Light',
       port: 11000,
       handler: function (action) {
-        console.log('Light one:', action);
-        relay(lightOne, action);
+        console.log('Tube Light:', action);
+        relay(tubeLight, action);
       }
     },
     {
-      name: 'Light 2',
+      name: 'Bed Lights',
       port: 11001,
       handler: function (action) {
-        console.log('Light Two:', action);
-        relay(lightTwo, action);
+        console.log('Bed Lights:', action);
+        relay(bedLights, action);
       }
     },
     {
-      name: 'Light 3',
+      name: 'Fan',
       port: 11002,
       handler: function (action) {
-        console.log('Light Three:', action);
-        relay(lightThree, action);
+        console.log('Fan:', action);
+        relay(fan, action);
       }
     },
     {
@@ -66,9 +66,9 @@ function relay(pin, action) {
 }
 
 function exit() {
-  relay(lightOne, 1);
-  relay(lightTwo, 1);
-  relay(lightThree, 1);
+  relay(tubeLight, 1);
+  relay(bedLights, 1);
+  relay(fan, 1);
   relay(lightFour, 1);
 
   velocity.stop();
