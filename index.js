@@ -4,7 +4,7 @@ const gpio = require('rpi-gpio').promise;
 const tubeLight = 32
 const bedLights = 36
 const fan = 38
-const lightFour = 40
+const socket = 40
 
 gpio.setup(tubeLight, gpio.DIR_OUT).then(function () {
   return gpio.write(tubeLight, true);
@@ -15,8 +15,8 @@ gpio.setup(bedLights, gpio.DIR_OUT).then(function () {
 gpio.setup(fan, gpio.DIR_OUT).then(function () {
   return gpio.write(fan, true);
 })
-gpio.setup(lightFour, gpio.DIR_OUT).then(function () {
-  return gpio.write(lightFour, true);
+gpio.setup(socket, gpio.DIR_OUT).then(function () {
+  return gpio.write(socket, true);
 })
 
 let velocity = new Velocity(
@@ -46,11 +46,11 @@ let velocity = new Velocity(
       }
     },
     {
-      name: 'Light 4',
+      name: 'Socket',
       port: 11003,
       handler: function (action) {
-        console.log('Light Four:', action);
-        relay(lightFour, action);
+        console.log('Socket:', action);
+        relay(socket, action);
       }
     }
     ]
@@ -69,7 +69,7 @@ function exit() {
   relay(tubeLight, 1);
   relay(bedLights, 1);
   relay(fan, 1);
-  relay(lightFour, 1);
+  relay(socket, 1);
 
   velocity.stop();
 }
